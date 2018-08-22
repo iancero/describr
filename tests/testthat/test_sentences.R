@@ -45,3 +45,11 @@ test_that(
     expect_equal(collapse_clauses(letters[1:3], collapse = ','), 'a,b,c')
   }
 )
+
+test_that(
+  desc = 'addon_add() adds "and" to final element of a list',
+  code = {
+    expect_equal(addon_and(letters[1:3]), c('a', 'b', 'and c'))
+    expect_equal(addon_and(letters[1:3], collapse = ' '), 'a b and c')
+  }
+)

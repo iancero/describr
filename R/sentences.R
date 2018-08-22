@@ -13,6 +13,10 @@ collapse_clauses <- function(strings, collapse = ' ') {
   paste(strings, collapse = collapse)
 }
 
+addon_and <- function(strings, collapse = NULL) {
+  strings[length(strings)] <- paste('and', strings[length(strings)])
 
+  paste(strings, collapse = collapse)
+}
 
 
