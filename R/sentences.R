@@ -29,7 +29,8 @@ numeric_sentence <- function(var_name, stat_vec, prep = '', verb = 'was') {
 
   pattern %>%
     glue::glue() %>%
-    gsub('\\s{2,}', ' ', x = .)
+    gsub('\\s{2,}', ' ', x = .) %>%
+    as.character()
 }
 
 numeric_sentences <- function(data, prep = '', verb = 'was'){
@@ -43,8 +44,8 @@ numeric_sentences <- function(data, prep = '', verb = 'was'){
 
 # data <- list(x = x, y = y)
 
-
-numeric_sentences(data, verb = 'is', prep = 'of')
+# numeric_sentence('age', x, prep = 'of', verb = 'is')
+# numeric_sentences(data)
 
 #
 # c(1:3)[[1]]

@@ -53,3 +53,45 @@ test_that(
     expect_equal(addon_and(letters[1:3], collapse = ' '), 'a b and c')
   }
 )
+
+test_that(
+  desc = 'numeric_sentence() delivers appropriately formatted sentence',
+  code = {
+    stat_vec <- list(mean = 1.1, SD = 2.2, min = 3.3, max = 4.4)
+    expect_type(numeric_sentence('age', stat_vec), 'character')
+    expect_equal(
+      object = numeric_sentence('age', stat_vec),
+      expected = 'The mean age was 1.1 (SD = 2.2, min = 3.3, max = 4.4).')
+    expect_equal(
+      object = numeric_sentence('age', stat_vec, prep = 'of', verb = 'is'),
+      expected = 'The mean of age is 1.1 (SD = 2.2, min = 3.3, max = 4.4).')
+  }
+)
+
+test_that(
+  desc = 'numeric_sentence() should not include two sequential whitespaces',
+  code = {
+    stat_vec <- list(mean = 1.1, SD = 2.2, min = 3.3, max = 4.4)
+    expect_false(any(grepl('\\s{2,}', numeric_sentence('age', stat_vec))))
+  }
+)
+
+test_that(
+  desc = 'numeric_sentences() delivers appropriate sentence output',
+  code = {
+    data <- list(
+      x = list(mean = 1.1, SD = 2.2, min = 3.3, max = 4.4),
+      y = list(mean = 11.1, SD = 22.2, min = 33.3, max = 44.4))
+    expect_type(numeric_sentences(data), 'list')
+    expect_equal(
+      object = numeric_sentences(data),
+      expected = list(
+        x = 'The mean x was 1.1 (SD = 2.2, min = 3.3, max = 4.4).',
+        y = 'The mean y was 11.1 (SD = 22.2, min = 33.3, max = 44.4).'))
+    expect_equal(
+      object = numeric_sentences(data, prep = 'of', verb = 'is'),
+      expected = list(
+        x = 'The mean of x is 1.1 (SD = 2.2, min = 3.3, max = 4.4).',
+        y = 'The mean of y is 11.1 (SD = 22.2, min = 33.3, max = 44.4).'))
+  }
+)
