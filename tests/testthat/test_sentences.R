@@ -101,3 +101,13 @@ test_that(
         y = 'The mean of y is 11.1 (SD = 22.2, min = 33.3, max = 44.4).'))
   }
 )
+
+test_that(
+  desc = 'factor_sentence() returns appropriate sentence output',
+  code = {
+    data <- table(c('a', 'a', 'a', 'b', 'b', 'c'))
+    expect_equal(
+      object = factor_sentence('race', data),
+      expected = 'Regarding race, a = 3, b = 2, and c = 1.')
+  }
+)
