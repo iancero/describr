@@ -38,24 +38,3 @@ numeric_sentences <- function(data, prep = '', verb = 'was'){
     .l = list(data, names(data), prep, verb),
     .f = ~ numeric_sentence(..2, stat_vec = ..1, prep = ..3, verb = ..4))
 }
-
-# x <- list(mean = 1.1, SD = 2.2, min = 3.3, max = 4.4)
-# y <- list(mean = 11.1, SD = 22.2, min = 33.3, max = 44.4)
-
-# data <- list(x = x, y = y)
-
-# numeric_sentence('age', x, prep = 'of', verb = 'is')
-# numeric_sentences(data)
-
-#
-# c(1:3)[[1]]
-#
-# x <- list(mean = 1.1, SD = 2.2, min = 3.3, max = 4.4)
-#
-# library(glue)
-#
-# s1 <- names(x)[1]
-# var <- 'age'
-# v1 <- x[[s1]]
-# remaining_stats <- collapse_clauses(stat_clause(x[2:length(x)]), ', ')
-# glue::glue('The {s1} {var} was {v1} ({remaining_stats})')

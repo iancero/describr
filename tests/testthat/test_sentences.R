@@ -2,6 +2,12 @@
 
 context('Test that sentences.R functions work appropriately')
 
+# x <- list(mean = 1.1, SD = 2.2, min = 3.3, max = 4.4)
+# y <- list(mean = 11.1, SD = 22.2, min = 33.3, max = 44.4)
+
+# data <- list(x = x, y = y)
+
+
 # df <- mtcars[, c('mpg', 'hp', 'wt')]
 # df[sample(1:nrow(df), size = .10*nrow(df)), ] <- NA
 #
