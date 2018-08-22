@@ -11,15 +11,8 @@ stats <- list(
   missing = function(col) mean(is.na(col)))
 
 num_stat_df <- numeric_statistics(df, stats)
-sentence_list <- numeric_sentences(df, stats, as_list = T)
-sentence_df <- numeric_sentences(df, stats, as_list = F)
-
-test_format <- function(num){
-  formatC(num, digits = 2, format = 'f', big.mark = '--', big.interval = 1)
-}
-num_stat_df_fmt <- numeric_statistics(df, stats, format = test_format)
-
-
+# sentence_list <- numeric_sentences(df, stats, as_list = T)
+# sentence_df <- numeric_sentences(df, stats, as_list = F)
 
 test_that(
   desc = 'numeric_statistics() should return statistics that are requested',
@@ -34,37 +27,22 @@ test_that(
   }
 )
 
-test_that(
-  desc = 'numeric_statistics() returns correctly formatted stats',
-  code = {
 
-    expect_equivalent(
-      object = num_stat_df_fmt$mean,
-      expect = test_format(sapply(df, mean, na.rm = T)))
-    expect_equivalent(
-      object = num_stat_df_fmt$SD,
-      expect = test_format(sapply(df, sd, na.rm = T)))
-    expect_equivalent(
-      object = num_stat_df_fmt$missing,
-      expect = test_format(sapply(df, function(x) mean(is.na(x)), na.rm = T)))
-  }
-)
-
-test_that(
-  desc = 'numeric_sentences returns appropriate output type',
-  code = {
-    expect_true(inherits(sentence_list, 'list'))
-    expect_true(inherits(sentence_df, 'data.frame'))
-    expect_false(inherits(sentence_list, 'data.frame'))
-    expect_false(inherits(sentence_df, 'list'))
-  }
-)
-
-test_that(
-  desc = 'numeric_sentences(as_list = T) returns correct names and length',
-  code = {
-    expect_equal(length(sentence_list), length(df))
-    expect_equal(names(sentence_list), names(df))
-  }
-)
+# test_that(
+#   desc = 'numeric_sentences returns appropriate output type',
+#   code = {
+#     expect_true(inherits(sentence_list, 'list'))
+#     expect_true(inherits(sentence_df, 'data.frame'))
+#     expect_false(inherits(sentence_list, 'data.frame'))
+#     expect_false(inherits(sentence_df, 'list'))
+#   }
+# )
+#
+# test_that(
+#   desc = 'numeric_sentences(as_list = T) returns correct names and length',
+#   code = {
+#     expect_equal(length(sentence_list), length(df))
+#     expect_equal(names(sentence_list), names(df))
+#   }
+# )
 
