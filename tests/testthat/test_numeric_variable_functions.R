@@ -14,6 +14,13 @@ num_stat_df <- numeric_statistics(df, stats)
 sentence_list <- numeric_sentences(df, stats, as_list = T)
 sentence_df <- numeric_sentences(df, stats, as_list = F)
 
+test_format <- function(num){
+  formatC(num, digits = 2, format = 'f', big.mark = '--', big.interval = 1)
+}
+num_stat_df_fmt <- numeric_statistics(df, stats, format = test_format)
+
+
+
 test_that(
   desc = 'numeric_statistics() should return statistics that are requested',
   code = {
@@ -24,6 +31,22 @@ test_that(
     expect_equivalent(
       object = num_stat_df$missing,
       expected = sapply(df, function(x) mean(is.na(x))))
+  }
+)
+
+test_that(
+  desc = 'numeric_statistics() returns correctly formatted stats',
+  code = {
+
+    expect_equivalent(
+      object = num_stat_df_fmt$mean,
+      expect = test_format(sapply(df, mean, na.rm = T)))
+    expect_equivalent(
+      object = num_stat_df_fmt$SD,
+      expect = test_format(sapply(df, sd, na.rm = T)))
+    expect_equivalent(
+      object = num_stat_df_fmt$missing,
+      expect = test_format(sapply(df, function(x) mean(is.na(x)), na.rm = T)))
   }
 )
 
