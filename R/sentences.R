@@ -2,16 +2,28 @@ clause <- function(noun, verb, obs, sep = ' '){
   paste(noun, verb, obs, sep = sep)
 }
 
-stat_clause <- function(stat_vec, verb = '=', sep = ' '){
+addon_units <- function(stat_vec, units, unit_sep = ''){
+  paste(stat_vec, units, sep = unit_sep)
+}
+
+stat_clause <- function(stat_vec,
+                        verb = '=',
+                        sep = ' ',
+                        units = '',
+                        unit_sep = ''){
   if (is.null(names(stat_vec))){
     stop('names(stat_vec) is NULL, need names for stat_vec')
   }
-  clause(names(stat_vec), verb, unlist(stat_vec), sep = sep)
+  values <- addon_units(unlist(stat_vec), units = units, sep = unit_sep)
+
+  clause(names(stat_vec), verb, values, sep = sep)
 }
 
 collapse_clauses <- function(strings, collapse = ' ') {
   paste(strings, collapse = collapse)
 }
+
+
 
 addon_and <- function(strings, collapse = NULL) {
   strings[length(strings)] <- paste('and', strings[length(strings)])
@@ -39,19 +51,17 @@ numeric_sentences <- function(data, prep = '', verb = 'was'){
     .f = ~ numeric_sentence(..2, stat_vec = ..1, prep = ..3, verb = ..4))
 }
 
-opening <- function(num = 1){
-  openings <- c(
+openings <- function(){
+  c(
     'In terms of',
     'Regarding',
     'For',
     'Concerning')
-
-  sample(openings, size = num, replace = T)
 }
 
 factor_sentence <- function(var, stat_vec, opener = NULL){
   pattern <- '{opener} {var}, {stat_clauses}.'
-  if (is.null(opener)) opener <- opening()
+  if (is.null(opener)) opener <- sample(openings(), 1)
   stat_clauses <- stat_vec %>%
     stat_clause() %>%
     addon_and() %>%
@@ -62,4 +72,11 @@ factor_sentence <- function(var, stat_vec, opener = NULL){
     gsub('\\s{2,}', ' ', x = .) %>%
     as.character()
 }
+
+factor_sentences <- function(data, opener = NULL){
+  purrr::pmap(
+    .l = list(data, names(data), opener),
+    .f = ~ factor_sentence(..2, stat_vec = ..1, opener = ..3))
+}
+
 

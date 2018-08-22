@@ -33,6 +33,9 @@ test_that(
     named_vec <- c(a = 1, b = 2, c = 3)
     expect_equal(stat_clause(named_vec), c('a = 1', 'b = 2', 'c = 3'))
     expect_equal(stat_clause(named_vec, 'x'), c('a x 1', 'b x 2', 'c x 3'))
+    expect_equal(
+      object = stat_clause(named_vec, units = '%'),
+      expected = c('a = 1%', 'b = 2%', 'c = 3%'))
   }
 )
 
@@ -107,7 +110,36 @@ test_that(
   code = {
     data <- table(c('a', 'a', 'a', 'b', 'b', 'c'))
     expect_equal(
-      object = factor_sentence('race', data),
+      object = factor_sentence('race', data, opener = 'Regarding'),
       expected = 'Regarding race, a = 3, b = 2, and c = 1.')
   }
 )
+
+test_that(
+  desc = 'factor_sentences() returns correct sentence list',
+  code = {
+    data <- list(
+      first_var = table(c('a', 'a', 'a', 'b', 'b', 'c')),
+      second_var = table(c('z', 'z', 'z', 'y', 'y')))
+    expect_equal(
+      object = factor_sentences(data, opener = list('Regarding', 'For')),
+      expected = list(
+        first_var = 'Regarding first_var, a = 3, b = 2, and c = 1.',
+        second_var = 'For second_var, y = 2, and z = 3.'))
+  }
+)
+
+test_that(
+  desc = 'openings() delivers a vector of openings',
+  code = {
+    expect_equal(
+      object = openings(),
+      expected = c(
+        'In terms of',
+        'Regarding',
+        'For',
+        'Concerning'))
+  }
+)
+
+
