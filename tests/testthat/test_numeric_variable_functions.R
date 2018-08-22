@@ -13,7 +13,7 @@ test_that(
       SD = function(x) sd(x, na.rm = T),
       missing = function(col) mean(is.na(col)))
     num_stat_df <- numeric_statistics(df, stats)
-
+    expect_equal(dim(num_stat_df), c(length(df), length(stats) + 1))
     expect_equal(names(num_stat_df), c('var', names(stats)))
     expect_equivalent(num_stat_df$mean, sapply(df, mean, na.rm = T))
     expect_equivalent(num_stat_df$SD, sapply(df, sd, na.rm = T))
