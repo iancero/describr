@@ -38,3 +38,28 @@ numeric_sentences <- function(data, prep = '', verb = 'was'){
     .l = list(data, names(data), prep, verb),
     .f = ~ numeric_sentence(..2, stat_vec = ..1, prep = ..3, verb = ..4))
 }
+
+opening <- function(num = 1){
+  openings <- c(
+    'In terms of',
+    'Regarding',
+    'For',
+    'Concerning')
+
+  sample(openings, size = num, replace = T)
+}
+
+factor_sentence <- function(var, stat_vec, opener = NULL){
+  pattern <- '{opener} {var}, {stat_clauses}.'
+  if (is.null(opener)) opener <- opening()
+  stat_clauses <- stat_vec %>%
+    stat_clause() %>%
+    addon_and() %>%
+    collapse_clauses(', ')
+
+  pattern %>%
+    glue::glue() %>%
+    gsub('\\s{2,}', ' ', x = .) %>%
+    as.character()
+}
+
