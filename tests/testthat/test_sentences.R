@@ -1,5 +1,13 @@
 # library(testthat)
 
+# Next steps:
+#   1 - direct tests for addon_units()
+#   2 - consider whether downstream functions need modification to
+#   account for units
+#   3 - Longshot: see if there is a way to represent each group of a categorical
+#   variable like its own sentence. If not consider the first version of the
+#   package basically finished.
+
 context('Test that sentences.R functions work appropriately')
 
 # x <- list(mean = 1.1, SD = 2.2, min = 3.3, max = 4.4)
@@ -15,6 +23,15 @@ context('Test that sentences.R functions work appropriately')
 #   mean = function(x) mean(x, na.rm = T),
 #   SD = function(x) sd(x, na.rm = T),
 #   missing = function(col) mean(is.na(col)))
+
+test_that(
+  desc = 'addon_units() appends units to strings',
+  code = {
+    expect_equal(addon_units('x', units = '%', unit_sep = ''), 'x%')
+    expect_equal(addon_units('x', units = 'y', unit_sep = ' '), 'x y')
+  }
+)
+
 
 test_that(
   desc = 'clause() appends elements appropriately',

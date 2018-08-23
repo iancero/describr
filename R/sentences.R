@@ -2,8 +2,8 @@ clause <- function(noun, verb, obs, sep = ' '){
   paste(noun, verb, obs, sep = sep)
 }
 
-addon_units <- function(stat_vec, units, unit_sep = ''){
-  paste(stat_vec, units, sep = unit_sep)
+addon_units <- function(str, units, unit_sep = ''){
+  paste(str, units, sep = unit_sep)
 }
 
 stat_clause <- function(stat_vec,
@@ -14,7 +14,7 @@ stat_clause <- function(stat_vec,
   if (is.null(names(stat_vec))){
     stop('names(stat_vec) is NULL, need names for stat_vec')
   }
-  values <- addon_units(unlist(stat_vec), units = units, sep = unit_sep)
+  values <- addon_units(unlist(stat_vec), units = units, unit_sep = unit_sep)
 
   clause(names(stat_vec), verb, values, sep = sep)
 }
