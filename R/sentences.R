@@ -45,10 +45,10 @@ numeric_sentence <- function(var_name, stat_vec, prep = '', verb = 'was', ...) {
     as.character()
 }
 
-numeric_sentences <- function(data, prep = '', verb = 'was'){
+numeric_sentences <- function(data, prep = '', verb = 'was', ...){
   purrr::pmap(
     .l = list(data, names(data), prep, verb),
-    .f = ~ numeric_sentence(..2, stat_vec = ..1, prep = ..3, verb = ..4))
+    .f = ~ numeric_sentence(..2, stat_vec = ..1, prep = ..3, verb = ..4, ...))
 }
 
 openings <- function(){
@@ -73,7 +73,7 @@ factor_sentence <- function(var, stat_vec, opener = NULL){
     as.character()
 }
 
-factor_sentences <- function(data, opener = NULL){
+factor_sentences <- function(data, opener = NULL, ...){
   purrr::pmap(
     .l = list(data, names(data), opener),
     .f = ~ factor_sentence(..2, stat_vec = ..1, opener = ..3))

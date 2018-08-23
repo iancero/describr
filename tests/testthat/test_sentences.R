@@ -1,8 +1,8 @@
 # library(testthat)
 
 # Next steps:
-#   1 - consider whether downstream functions need modification to
-#   account for units
+#   1 - make numeric_sentenceS() (and both factor functions) compatable with
+#   addon_units, ideally using ... notation.
 #   2 - Longshot: see if there is a way to represent each group of a categorical
 #   variable like its own sentence. If not consider the first version of the
 #   package basically finished.
@@ -130,6 +130,11 @@ test_that(
       expected = list(
         x = 'The mean of x is 1.1 (SD = 2.2, min = 3.3, max = 4.4).',
         y = 'The mean of y is 11.1 (SD = 22.2, min = 33.3, max = 44.4).'))
+    expect_equal(
+      object = numeric_sentences(data, unit = 'years', unit_sep = ' '),
+      expected = list(
+        x = 'The mean of x is 1.1 years (SD = 2.2 years, min = 3.3 years, max = 4.4 years).',
+        y = 'The mean of y is 11.1 years (SD = 22.2 years, min = 33.3 years, max = 44.4 years).'))
   }
 )
 
