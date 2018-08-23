@@ -2,7 +2,7 @@ clause <- function(noun, verb, obs, sep = ' '){
   paste(noun, verb, obs, sep = sep)
 }
 
-addon_units <- function(str, units, unit_sep = ''){
+addon_units <- function(str, units = '', unit_sep = ''){
   paste(str, units, sep = unit_sep)
 }
 
@@ -31,12 +31,12 @@ addon_and <- function(strings, collapse = NULL) {
   paste(strings, collapse = collapse)
 }
 
-numeric_sentence <- function(var_name, stat_vec, prep = '', verb = 'was') {
+numeric_sentence <- function(var_name, stat_vec, prep = '', verb = 'was', ...) {
   pattern <- 'The {stat1} {prep} {var_name} {verb} {num1} ({other_stats}).'
   stat1 <- names(stat_vec)[1]
-  num1 <- stat_vec[[1]]
+  num1 <- addon_units(stat_vec[[1]], ...)
   other_stats <- stat_vec[2:length(stat_vec)] %>%
-    stat_clause() %>%
+    stat_clause(...) %>%
     collapse_clauses(collapse = ', ')
 
   pattern %>%

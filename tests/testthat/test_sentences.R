@@ -1,10 +1,9 @@
 # library(testthat)
 
 # Next steps:
-#   1 - direct tests for addon_units()
-#   2 - consider whether downstream functions need modification to
+#   1 - consider whether downstream functions need modification to
 #   account for units
-#   3 - Longshot: see if there is a way to represent each group of a categorical
+#   2 - Longshot: see if there is a way to represent each group of a categorical
 #   variable like its own sentence. If not consider the first version of the
 #   package basically finished.
 
@@ -12,9 +11,8 @@ context('Test that sentences.R functions work appropriately')
 
 # x <- list(mean = 1.1, SD = 2.2, min = 3.3, max = 4.4)
 # y <- list(mean = 11.1, SD = 22.2, min = 33.3, max = 44.4)
-
+#
 # data <- list(x = x, y = y)
-
 
 # df <- mtcars[, c('mpg', 'hp', 'wt')]
 # df[sample(1:nrow(df), size = .10*nrow(df)), ] <- NA
@@ -91,6 +89,19 @@ test_that(
     expect_equal(
       object = numeric_sentence('age', stat_vec, prep = 'of', verb = 'is'),
       expected = 'The mean of age is 1.1 (SD = 2.2, min = 3.3, max = 4.4).')
+    expect_equal(
+      object = numeric_sentence('prop.', stat_vec, units = '%', unit_sep = ''),
+      expected = 'The mean prop. was 1.1% (SD = 2.2%, min = 3.3%, max = 4.4%).'
+    )
+    expect_equal(
+      object = numeric_sentence(
+        var = 'age',
+        stat_vec = stat_vec,
+        units = 'years',
+        unit_sep = ' '),
+      expected = paste(
+        'The mean age was 1.1 years',
+        '(SD = 2.2 years, min = 3.3 years, max = 4.4 years).'))
   }
 )
 
