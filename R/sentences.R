@@ -86,18 +86,3 @@ factor_sentences <- function(data, opener = NULL, ...){
     .f = ~ factor_sentence(...)) %>%
     purrr::set_names(names(data))
 }
-
-
-
-
-
-
-#
-# outer_function <- function(a, b, c, ...){
-#   purrr::pmap(
-#     .l = list(a, b, c, ...),
-#     .f = ~ paste(...))
-# }
-#
-# outer_function('a', 'b', 'c', 'd')
-
