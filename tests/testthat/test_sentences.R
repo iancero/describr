@@ -2,8 +2,6 @@
 
 # Next steps:
 #   .5 consider making way to remove oxford comma on 2-element lists
-#   1 - make numeric_sentenceS() (and both factor functions) compatable with
-#   addon_units, ideally using ... notation.
 #   2 - Longshot: see if there is a way to represent each group of a categorical
 #   variable like its own sentence. If not consider the first version of the
 #   package basically finished.
@@ -69,6 +67,13 @@ test_that(
   code = {
     expect_equal(collapse_clauses(letters[1:3]), 'a b c')
     expect_equal(collapse_clauses(letters[1:3], collapse = ','), 'a,b,c')
+    expect_equal(
+      object = collapse_clauses(letters[1:2], collapse = ','),
+      expected = 'a b',
+      info = '"a b" is expected b/c oxford param should eval F when len <= 2')
+    expect_equal(
+      object = collapse_clauses(letters[1:3], collapse = ',', oxford = F),
+      expected = 'a,b c')
   }
 )
 
@@ -167,7 +172,7 @@ test_that(
       object = factor_sentences(data, opener = list('Regarding', 'For')),
       expected = list(
         first_var = 'Regarding first_var, a = 3, b = 2, and c = 1.',
-        second_var = 'For second_var, y = 2, and z = 3.'))
+        second_var = 'For second_var, y = 2 and z = 3.'))
     expect_equal(
       object = factor_sentences(
         data = data,
@@ -176,7 +181,7 @@ test_that(
         unit_sep = ' '),
       expected = list(
         first_var = 'Regarding first_var, a = 3 %, b = 2 %, and c = 1 %.',
-        second_var = 'For second_var, y = 2 %, and z = 3 %.'))
+        second_var = 'For second_var, y = 2 % and z = 3 %.'))
   }
 )
 

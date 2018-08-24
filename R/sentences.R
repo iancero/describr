@@ -19,9 +19,14 @@ stat_clause <- function(stat_vec,
   clause(names(stat_vec), verb, values, sep = sep)
 }
 
-collapse_clauses <- function(strings, collapse = ' ') {
-  # TODO: perhaps there could be an option like "oxford = F"
-  paste(strings, collapse = collapse)
+collapse_clauses <- function(strs, collapse = ' ', oxford = length(strs) > 2) {
+  if(oxford){
+    paste(strs, collapse = collapse)
+  } else {
+    paste(strs[1:(length(strs) - 1)], collapse = collapse) %>%
+      paste(strs[length(strs)], sep = ' ')
+  }
+
 }
 
 
@@ -38,7 +43,7 @@ numeric_sentence <- function(var_name, stat_vec, prep = '', verb = 'was', ...) {
   num1 <- addon_units(stat_vec[[1]], ...)
   other_stats <- stat_vec[2:length(stat_vec)] %>%
     stat_clause(...) %>%
-    collapse_clauses(collapse = ', ')
+    collapse_clauses(collapse = ', ', oxford = F)
 
   pattern %>%
     glue::glue() %>%
@@ -67,7 +72,7 @@ factor_sentence <- function(var, stat_vec, opener = NULL, ...){
   stat_clauses <- stat_vec %>%
     stat_clause(...) %>%
     addon_and() %>%
-    collapse_clauses(', ')
+    collapse_clauses(collapse = ', ')
 
   pattern %>%
     glue::glue() %>%
