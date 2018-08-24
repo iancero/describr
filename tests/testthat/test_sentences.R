@@ -1,7 +1,6 @@
 # library(testthat)
 
 # Next steps:
-#   .5 consider making way to remove oxford comma on 2-element lists
 #   2 - Longshot: see if there is a way to represent each group of a categorical
 #   variable like its own sentence. If not consider the first version of the
 #   package basically finished.
@@ -157,8 +156,21 @@ test_that(
       object = factor_sentence('race', data, opener = 'Regarding'),
       expected = 'Regarding race, a = 3, b = 2, and c = 1.')
     expect_equal(
+      object = factor_sentence('race', data, opener = 'Regarding', verb = 'was'),
+      expected = 'Regarding race, a was 3, b was 2, and c was 1.')
+    expect_equal(
       object = factor_sentence('race', data, opener = 'Regarding', units = '%'),
       expected = 'Regarding race, a = 3%, b = 2%, and c = 1%.')
+
+    flipped_data <- names(data)
+    names(flipped_data) <- as.character(data)
+    expect_equal(
+      object = factor_sentence(
+        var = 'race',
+        stat_vec = flipped_data,
+        opener = 'Regarding',
+        verb = 'said'),
+      expected = 'Regarding race, 3 said a, 2 said b, and 1 said c.')
   }
 )
 

@@ -43,7 +43,7 @@ numeric_sentence <- function(var_name, stat_vec, prep = '', verb = 'was', ...) {
   num1 <- addon_units(stat_vec[[1]], ...)
   other_stats <- stat_vec[2:length(stat_vec)] %>%
     stat_clause(...) %>%
-    collapse_clauses(collapse = ', ', oxford = F)
+    collapse_clauses(collapse = ', ', oxford = T)
 
   pattern %>%
     glue::glue() %>%
