@@ -1,11 +1,13 @@
 # library(testthat)
 
 # Next steps:
+#   .5 consider making way to remove oxford comma on 2-element lists
 #   1 - make numeric_sentenceS() (and both factor functions) compatable with
 #   addon_units, ideally using ... notation.
 #   2 - Longshot: see if there is a way to represent each group of a categorical
 #   variable like its own sentence. If not consider the first version of the
 #   package basically finished.
+
 
 context('Test that sentences.R functions work appropriately')
 
@@ -133,8 +135,12 @@ test_that(
     expect_equal(
       object = numeric_sentences(data, unit = 'years', unit_sep = ' '),
       expected = list(
-        x = 'The mean of x is 1.1 years (SD = 2.2 years, min = 3.3 years, max = 4.4 years).',
-        y = 'The mean of y is 11.1 years (SD = 22.2 years, min = 33.3 years, max = 44.4 years).'))
+        x = paste(
+          'The mean x was 1.1 years',
+          '(SD = 2.2 years, min = 3.3 years, max = 4.4 years).'),
+        y = paste(
+          'The mean y was 11.1 years',
+          '(SD = 22.2 years, min = 33.3 years, max = 44.4 years).')))
   }
 )
 
@@ -145,6 +151,9 @@ test_that(
     expect_equal(
       object = factor_sentence('race', data, opener = 'Regarding'),
       expected = 'Regarding race, a = 3, b = 2, and c = 1.')
+    expect_equal(
+      object = factor_sentence('race', data, opener = 'Regarding', units = '%'),
+      expected = 'Regarding race, a = 3%, b = 2%, and c = 1%.')
   }
 )
 
@@ -159,6 +168,15 @@ test_that(
       expected = list(
         first_var = 'Regarding first_var, a = 3, b = 2, and c = 1.',
         second_var = 'For second_var, y = 2, and z = 3.'))
+    expect_equal(
+      object = factor_sentences(
+        data = data,
+        opener = list('Regarding', 'For'),
+        units = '%',
+        unit_sep = ' '),
+      expected = list(
+        first_var = 'Regarding first_var, a = 3 %, b = 2 %, and c = 1 %.',
+        second_var = 'For second_var, y = 2 %, and z = 3 %.'))
   }
 )
 

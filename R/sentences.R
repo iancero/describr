@@ -20,6 +20,7 @@ stat_clause <- function(stat_vec,
 }
 
 collapse_clauses <- function(strings, collapse = ' ') {
+  # TODO: perhaps there could be an option like "oxford = F"
   paste(strings, collapse = collapse)
 }
 
@@ -47,8 +48,9 @@ numeric_sentence <- function(var_name, stat_vec, prep = '', verb = 'was', ...) {
 
 numeric_sentences <- function(data, prep = '', verb = 'was', ...){
   purrr::pmap(
-    .l = list(data, names(data), prep, verb),
-    .f = ~ numeric_sentence(..2, stat_vec = ..1, prep = ..3, verb = ..4, ...))
+    .l = list(names(data), data, prep, verb, ...),
+    .f = ~ numeric_sentence(...)) %>%
+    purrr::set_names(names(data))
 }
 
 openings <- function(){
@@ -59,11 +61,11 @@ openings <- function(){
     'Concerning')
 }
 
-factor_sentence <- function(var, stat_vec, opener = NULL){
+factor_sentence <- function(var, stat_vec, opener = NULL, ...){
   pattern <- '{opener} {var}, {stat_clauses}.'
   if (is.null(opener)) opener <- sample(openings(), 1)
   stat_clauses <- stat_vec %>%
-    stat_clause() %>%
+    stat_clause(...) %>%
     addon_and() %>%
     collapse_clauses(', ')
 
@@ -75,8 +77,22 @@ factor_sentence <- function(var, stat_vec, opener = NULL){
 
 factor_sentences <- function(data, opener = NULL, ...){
   purrr::pmap(
-    .l = list(data, names(data), opener),
-    .f = ~ factor_sentence(..2, stat_vec = ..1, opener = ..3))
+    .l = list(names(data), data, opener, ...),
+    .f = ~ factor_sentence(...)) %>%
+    purrr::set_names(names(data))
 }
 
+
+
+
+
+
+#
+# outer_function <- function(a, b, c, ...){
+#   purrr::pmap(
+#     .l = list(a, b, c, ...),
+#     .f = ~ paste(...))
+# }
+#
+# outer_function('a', 'b', 'c', 'd')
 
